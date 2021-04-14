@@ -1,0 +1,33 @@
+cd /data/yudonglin/software/cellranger-4.0.0
+export PATH=/data/yudonglin/software/cellranger-4.0.0:$PATH
+
+#全部红系单细胞
+cellranger count --id=erythropoiesis \                   --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \                   --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ \                   --sample=NoPro \                   --expect-cells=8000 \                   --localcores=28 \                   --localmem=64
+
+#第一次nonpro和Pro的单细胞
+cellranger count --id=erythropoiesis_nonpro \ --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \ --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ \ --sample=NoPro \ --expect-cells=8000 \ --localcores=20 \ --localmem=64
+cellranger count --id=erythropoiesis_pro \ --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \ --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ \ --sample=Pro \ --expect-cells=8000 \ --localcores=20 \ --localmem=64
+
+
+#第二次的nonpro
+cellranger count --id=nonpro --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \ --fastqs=/data/yudonglin/singlecell_2/ABFC20190816/nonpro_data/ --sample=B1015NonPro --localcores=40 --localmem=64
+
+
+#第一次的baso
+cellranger count --id=baso_1 --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell_baso_poly/CBFC20200096/201112_A00679_0424_BHKY33DSXY/ --sample=Baso-1  --localcores=45 --localmem=64
+
+
+#第二次的baso
+cellranger count --id=baso_2 --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell_baso_poly/CBFC20200096/201112_A00679_0424_BHKY33DSXY/ --sample=Baso-2  --localcores=45 --localmem=64
+
+
+#poly
+cellranger count --id=poly_1 --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell_baso_poly/CBFC20200096/201114_A00268_0543_BHL7LWDSXY/ --sample=Poly-1  --localcores=45 --localmem=64
+
+
+#ortho
+cellranger count --id=ortho --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell_ortho_nonpro/CBFC20200096/210326_A00869_0442_BHYKJVDSXY/ --sample=ortho  --localcores=45 --localmem=64
+
+
+#炎性nonpro
+cellranger count --id=NonPro --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell_ortho_nonpro/CBFC20200096/210326_A00869_0442_BHYKJVDSXY/ --sample=BM-Nonpro  --localcores=45 --localmem=64
