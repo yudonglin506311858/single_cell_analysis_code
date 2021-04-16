@@ -1,0 +1,8 @@
+#先运行几个降维算法之后再读取文件
+###prepare normalized expression for Cellrouter input
+mydata<- FetchData(YDL,vars = c("tSNE_1","tSNE_2"))
+write.csv(mydata,file = "projection.csv")
+write.table(as.matrix(YDL@assays$RNA@counts),"YDL.normalized_expression.txt",sep="\t")
+write.csv(colnames(YDL@assays$RNA@counts),"YDL.cell_names.csv")
+write.csv(rownames(YDL@assays$RNA@counts),"YDL.gene_names.csv")
+write.table(as.matrix(YDL@meta.data),"YDL.meta.data.txt")
