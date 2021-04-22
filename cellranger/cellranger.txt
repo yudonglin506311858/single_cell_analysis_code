@@ -2,7 +2,7 @@ cd /data/yudonglin/software/cellranger-4.0.0
 export PATH=/data/yudonglin/software/cellranger-4.0.0:$PATH
 
 #全部红系单细胞
-cellranger count --id=erythropoiesis \                   --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \                   --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ \                   --sample=NoPro \                   --expect-cells=8000 \                   --localcores=28 \                   --localmem=64
+cellranger count --id=reti --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell_all/LBFC20190816-02（20190403-05）数据/190827_A00679_0180_BHFKVNDSXX/ --sample=Ery --localcores=28 --localmem=64
 
 #第一次nonpro和Pro的单细胞
 cellranger count --id=erythropoiesis_nonpro \ --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \ --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ \ --sample=NoPro \ --expect-cells=8000 \ --localcores=20 \ --localmem=64
