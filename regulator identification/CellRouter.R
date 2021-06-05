@@ -28,14 +28,63 @@ ndata <- ndata[names(var),]
 #quantile <- 0.975
 #genes2use <- unique(as.vector(unlist(apply(loadings[,1:num_pc],2,function(x){names(x[which(abs(x) >= quantile(x,quantile))])}))))
 genes2use=rownames(ndata)
-#ggrn <- buildGRN('Mm',ndata,genes2use,2,'results/GRN.R') #original 5
+ggrn <- buildGRN('Mm',ndata,genes2use,2,'results/GRN.R') #original 5
 rownames(matrix) = colnames(ndata)
 
 #saveRDS(cellrouter,"cellrouter.RDS")
 #下次可以直接load这个GRN文件
-ggrn <- get(load('results/GRN.R'))
+#ggrn <- get(load('results/GRN.R'))
 
-cellrouter<-readRDS("cellrouter_1.RDS")
+#cellrouter<-readRDS("cellrouter_1.RDS")
+
+
+### Subpopulation identification and gene signatures with CellRouter
+cellrouter <- CellRouter(expdata=ndata,annotations=colnames(ndata))
+cellrouter@rdimension <- matrix
+pdf("kNN_network.pdf")
+cellrouter <- findsubpopulations(cellrouter,90,'jaccard','results/kNN_network.gml')
+dev.off()
+
+
+df=read.table("YDL.meta.data.txt",header=T,row.names=1,sep="\t")
+df$sample_id=rownames(df)
+df=merge(cellrouter@sampTab,df,by="sample_id",all=T)
+write.table(df,"YDL.meta.data.withSP.txt",sep="\t")
+
+lengths(cellrouter@graph$subpopulation)
+cellrouter <- diffexpr(cellrouter,column='population',pvalue = 0.05)
+markers <- findmarkers(cellrouter)
+write.table(markers,"results/YDL.markers.txt",sep="\t")
+plotReducedDimension(cellrouter,5,5,filename='results/YDL.tSNE.pdf')
+table(cellrouter@sampTab$population)
+write.table(cellrouter@sampTab,"results/YDL.cellrouter_sampTab.txt",sep="\t")
+
+######## Trajectory Detection using CellRouter ###
+pdf("kNN_network_trajectory.pdf")
+cellrouter <- createKNN(cellrouter,90,'jaccard','results/paths/kNN_network_trajectory.gml') #10 before this 90
+dev.off()
+
+filename <- "results/paths/cell_edge_weighted_network.txt"
+write.table(cellrouter@graph$edges,file=filename,sep='\t',row.names=FALSE,col.names = FALSE,quote=FALSE) #input network
+saveRDS(cellrouter,"cellrouter.RDS")
+
+##select starting subpopulation,all other subpopulations are targets
+sources <- c('SP_10') #from SP_10 to SP_8
+targets <- setdiff(as.vector(cellrouter@sampTab$population),sources)
+methods <- c("euclidean","maximum","manhattan","canberra","binary",'graph') #graph for distances in KNN
+cellrouter <- findpaths(cellrouter,libdir,paste(getwd(),'results/paths',sep='/'),method="graph")
+ranks <- c('path_cost','path_flow','rank','length')
+cellrouter <- processtrajectories(cellrouter,genes2use,path.rank=ranks[3],num.cells = 3,neighs = 1)
+names <- unique(names(cellrouter@pathsinfo$distr))
+clusters.show <- names
+cellrouter <- correlationpseudotime(cellrouter,type='spearman')
+cellrouter <- topgenes(cellrouter,0.85,0.15)
+cellrouter <- smoothdynamics(cellrouter,names)
+cellrouter <- clusterGenesPseudotime(cellrouter,10)
+save(cellrouter,file='results/CellRouter_StemID_Processed.R')
+
+##plot begins####
+
 
 ## GRN score for selected transitions
 tfs <- find_tfs(species = 'Mm')
