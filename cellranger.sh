@@ -12,6 +12,8 @@ cellranger count --id=neutrophil \
 #巨噬细胞
 conda activate chipseq
 prefetch -t ascp-a "/data/yudonglin/miniconda3/envs/chipseq/etc/asperaweb_id_dsa.openssh" SRR12493999 -O ~/example
+mv SRR12493999_1.fastq.gz SRR12493999_S1_L001_R1_001.fastq.gz
+mv SRR12493999_2.fastq.gz SRR12493999_S1_L001_R2_001.fastq.gz
 export PATH=/data/yudonglin/software/cellranger-4.0.0:$PATH
 cellranger count --id=macrophage \
                    --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A \
