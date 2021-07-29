@@ -1,4 +1,8 @@
 #run this script in linux system and oracle java
+
+dir.create("results")
+dir.create("results/paths")
+
 source('/data/yudonglin/nopro/Cellrouter/cellrouter/CellRouter_Class.R')
 libdir <- '/data/yudonglin/nopro/Cellrouter/cellrouter/CellRouter/'
 set.seed(123)
