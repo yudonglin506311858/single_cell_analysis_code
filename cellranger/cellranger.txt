@@ -11,6 +11,7 @@ cellranger count --id=erythropoiesis_pro \ --transcriptome=/data/yudonglin/veloc
 
 #第一次nonpro和Pro的单细胞
 cellranger count --id=nonpro1 --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ --sample=NoPro --expect-cells=8000 --localcores=20 --localmem=64
+cellranger count --id=pro --transcriptome=/data/yudonglin/velocity/refdata-gex-mm10-2020-A --fastqs=/data/yudonglin/singlecell/200703_A00838_0230_BH3GFKDSXY/ --sample=Pro --expect-cells=8000 --localcores=20 --localmem=64
 
 
 #第二次的nonpro
