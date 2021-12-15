@@ -23,5 +23,18 @@ cellranger count --id=macrophage \
                    --localmem=64
 
 
+#两个样本的运行
+
+libraries.csv
+library_id,molecule_h5
+baso,/data/yudonglin/software/cellranger-4.0.0/baso/outs/molecule_info.h5
+baso_2,/data/yudonglin/software/cellranger-4.0.0/baso_2/outs/molecule_info.h5
+
+export PATH=/data/yudonglin/software/cellranger-4.0.0:$PATH
+
+cellranger aggr --id=baso_merge \
+                  --csv=libraries.csv \
+                  --normalize=mapped
+
 
 
